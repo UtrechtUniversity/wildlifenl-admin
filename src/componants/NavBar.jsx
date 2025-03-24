@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Collapse,
+  Box,
+  Button,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import GroupIcon from "@mui/icons-material/Group";
@@ -15,9 +17,15 @@ import AddIcon from "@mui/icons-material/Add";
 
 function NavBar() {
   const [speciesOpen, setSpeciesOpen] = useState(false);
+  const navigate = useNavigate(); 
 
   const toggleSpeciesMenu = () => {
     setSpeciesOpen(!speciesOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); 
+    navigate("/"); 
   };
 
   return (
@@ -71,6 +79,30 @@ function NavBar() {
           </List>
         </Collapse>
       </List>
+      <Box sx={{ position: "absolute", bottom: 20, textAlign: "center", p: 2 }}>
+  <Button
+    variant="contained"
+    color="error"
+    startIcon={<List/>}
+    onClick={handleLogout}
+    sx={{
+      width: "90%",
+      fontWeight: "bold",
+      fontSize: "1rem",
+      borderRadius: "8px",
+      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+      transition: "all 0.3s ease",
+      "&:hover": {
+        backgroundColor: "#d32f2f",
+        transform: "scale(1.05)",
+      },
+    }}
+  >
+    Logout
+  </Button>
+</Box>
+
+
     </nav>
   );
 }
